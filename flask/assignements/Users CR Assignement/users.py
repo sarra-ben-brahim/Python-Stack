@@ -24,3 +24,20 @@ class Users:
                 VALUES (%(first_name)s, %(last_name)s, %(email)s);"""
         result = connectToMySQL('mydb').query_db(query, data) 
         return result
+    
+    @classmethod
+    def show(cls, data):
+        query = """SELECT * FROM users WHERE id = %(id)s """
+        results = connectToMySQL('mydb').query_db(query, data)
+        print(cls(results[0]))
+        return cls(results[0]) 
+    
+    @classmethod
+    def edit(cls, data):
+        query = """UPDATE users SET first_name=%(first_name)s,last_name=%(last_name)s,email=%(email)s WHERE id = %(id)s;"""
+        return connectToMySQL('mydb').query_db(query, data)   
+    
+    @classmethod
+    def destroy(cls, data):
+        query = """DELETE FROM users WHERE id=%(id)s;"""  
+        return connectToMySQL('mydb').query_db(query, data)

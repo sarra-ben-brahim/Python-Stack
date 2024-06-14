@@ -19,6 +19,34 @@ def create_user():
     print(request.form)
     Users.save(request.form)
     return redirect('/users')
+
+@app.route('/users/<int:id>')
+def show_user(id):
+    data ={
+        "id":id
+    }
+    return render_template("read_one_user.html", user = Users.show(data))
+
+@app.route('/users/edit/<int:id>')
+def edit_user(id):
+    data = {
+        "id" : id
+    }
+    Users.edit(request.form)
+    return render_template("edit_user.html", user = Users.show(data))
+
+@app.route('/users/update', methods=['POST'])
+def update():
+    Users.edit(request.form)
+    return redirect('/users')
+
+@app.route('/users/destroy/<int:id>')
+def destroy(id):
+    data = {
+       "id" : id
+    }
+    Users.destroy(data)
+    return redirect('/users')
             
 if __name__ == "__main__":
     app.run(debug=True)
